@@ -2,9 +2,10 @@
 
 $getData = file_get_contents('https://pokeapi.co/api/v2/'.$input);
 
-$decode = json_decode($getData,true);
-$getID = file_get_contents(['pokemon']['id']);
-$input = $_GET['pokemon'];
+$data = json_decode($getData,true);
+$getID = $data['id'];
+$input = $_GET['input'];
+$showID = $_GET['id'];
 
 /*$ab = $decode['pokemon']['ditto']['abilities']['0']['ability'];
 
@@ -40,7 +41,7 @@ foreach ($ab as $values) {
     </div>
 	<form>
 		<div class="row form-group form-inline" id="inputDiv">
-			<input type="text" name="pokemon" id="input" class="form-control" placeholder="Don\'t use capital letters, please">
+			<input type="text" name="input" id="input" class="form-control" placeholder="Don\'t use capital letters, please">
 			<button id="submit" class="btn btn-primary">Search</button>
 		</div>
 	</form>
@@ -111,7 +112,7 @@ foreach ($ab as $values) {
             <article>
                 <div class="col">
                     <div id="submit-output">
-
+	                    <p><?php echo $input;?></p>
                         <p id="pokéId"></p>
                     </div>
 
