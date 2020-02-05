@@ -1,14 +1,20 @@
 <?php
 
-$getData = file_get_contents('`https://pokeapi.co/api/v2/pokemon/');
+$getData = file_get_contents('https://pokeapi.co/api/v2/'.$input);
 
+$decode = json_decode($getData,true);
+$getID = file_get_contents(['pokemon']['id']);
+$input = $_GET['pokemon'];
 
+/*$ab = $decode['pokemon']['ditto']['abilities']['0']['ability'];
 
+foreach ($ab as $values) {
+    echo $values;
+}*/
 
+?>
 
-
-
-echo '<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -32,11 +38,12 @@ echo '<!DOCTYPE html>
         <h3 id="find">Find a Pokémon</h3>
         <span id="error"></span>
     </div>
-
-    <div class="row form-group form-inline" id="inputDiv">
-        <input type="text" name="pokémon" id="input" class="form-control" placeholder="Don\'t use capital letters, please">
-        <button id="submit" class="btn btn-primary">Search</button>
-    </div>
+	<form>
+		<div class="row form-group form-inline" id="inputDiv">
+			<input type="text" name="pokemon" id="input" class="form-control" placeholder="Don\'t use capital letters, please">
+			<button id="submit" class="btn btn-primary">Search</button>
+		</div>
+	</form>
 </div>
 
 <div id="pokedex">
@@ -104,6 +111,7 @@ echo '<!DOCTYPE html>
             <article>
                 <div class="col">
                     <div id="submit-output">
+
                         <p id="pokéId"></p>
                     </div>
 
@@ -132,4 +140,4 @@ echo '<!DOCTYPE html>
 
 <script rel="script" src="script.js" lang="js"></script>
 </body>
-</html>';
+</html>
