@@ -1,8 +1,23 @@
 <?php
+declare(strict_types = 1);
 
-$input = $_GET['input'];
+ini_set('display_errors', '1');
+ini_set('display_startup_errors', '1');
+error_reporting(E_ALL);
 
-function getData($inputpoke)
+//hierboven DEBUG ACTIVATED YA IRISG PRICK
+
+if (isset( $_GET['input']) && !empty( $_GET['input'])) //MAD FRANKS CHECKS IF ITS ACTUALLY FILLED
+{
+	$input = $_GET['input']; //TOEWIJZEN
+}
+else
+{
+	$input  = 1; //DEFAULT VALUE SUPER BELANGRIJK YA ...
+}
+$resultArray = getData($input); //HIERO
+
+function getData ($inputpoke)
 {
     $getData = file_get_contents('https://pokeapi.co/api/v2/pokemon/' . $inputpoke);
     $data = json_decode($getData, true);
@@ -10,24 +25,19 @@ function getData($inputpoke)
     $pokeName = $data['species']['name'];
     $pokeID = $data['id'];
     $pokeSprite = $data['sprites']['front_default'];
+    $pokeMoves = $data['moves']['0']['move']['name'];
+    $pokeEvo = $data['species']['url']['evolves_from_species'];
 
+    //ALS ER EEN RETURN IS ALTIJD IN EEN VAR WEGESCHRIJVEN ZIE $resultArray IETS HOGER
     return [
         'name' => $pokeName,
         'id' => $pokeID,
         'sprite' => $pokeSprite,
+	    'move1' => $pokeMoves,
+	    'previous' => $pokeEvo
     ];
 }
 
-
-if ($_GET['input'] = null) {
-
-    //echo $data['results']['0'];
-    getData('name');
-} else {
-
-    $pokemon = getData($input);
-
-}
 ?>
 
 	<!DOCTYPE html>
@@ -92,7 +102,7 @@ if ($_GET['input'] = null) {
 					<div id="buttontopPicture2"></div>
 				</div>
 				<div id="picture">
-					<img id="sprite" src="<?php echo $pokesprite; ?>"/>
+					<img id="sprite" src="<?php echo $resultArray['sprite'] //VIA ECHO IN HTRML POMPEN ADHV RESULTARRAY?>"/>
 
 				</div>
 				<div id="buttonbottomPicture"></div>
@@ -131,11 +141,12 @@ if ($_GET['input'] = null) {
 				<article>
 					<div class="col">
 						<div id="submit-output">
-							<p><?php echo $pokeName; ?></p>
-							<p id="pokéId"><?php echo $pokeID; ?></p>
+							<p><?php echo $resultArray['name']; ?></p>
+							<p id="pokéId"><?php echo $resultArray['id']; ?></p>
 						</div>
 
 						<div id="moves">
+							<p><?php echo $resultArray['move1'] ?></p>
 							<!--<ul>
                                 <li></li>
                                 <li></li>
@@ -146,6 +157,7 @@ if ($_GET['input'] = null) {
 					</div>
 					<div class="col">
 						<div class="evolution" id="evolution">
+							<?php echo $resultArray['previous'];?>
 						</div>
 					</div>
 				</article>
@@ -167,15 +179,3 @@ if ($_GET['input'] = null) {
 	<script rel="script" src="script.js" lang="js"></script>
 	</body>
 	</html>
-
-
-<?php
-/*$pokeMoves = array_rand($data['abilities'][,int $num = 4]):mixed;
-var_dump($pokeMoves);*/
-
-/*$ab = $decode['pokemon']['ditto']['abilities']['0']['ability'];
-
-foreach ($ab as $values) {
-echo $values;
-}*/
-?>
