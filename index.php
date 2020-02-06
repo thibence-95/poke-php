@@ -1,11 +1,17 @@
 <?php
 
-$getData = file_get_contents('https://pokeapi.co/api/v2/'.$input);
+$input = $_GET['input'];
+
+$getData = file_get_contents('https://pokeapi.co/api/v2/pokemon/'.$input);
 
 $data = json_decode($getData,true);
-$getID = $data['id'];
-$input = $_GET['input'];
-$showID = $_GET['id'];
+$pokeName = $data['species']['name'];
+$pokeID = $data['id'];
+$pokesprite = $data['sprites']['front_default'];
+
+//$randomMoves = $data['abilities'][mt_rand(0, count($data['abilities']) - 4)];
+//var_dump($randomMoves);
+
 
 /*$ab = $decode['pokemon']['ditto']['abilities']['0']['ability'];
 
@@ -41,7 +47,7 @@ foreach ($ab as $values) {
     </div>
 	<form>
 		<div class="row form-group form-inline" id="inputDiv">
-			<input type="text" name="input" id="input" class="form-control" placeholder="Don\'t use capital letters, please">
+			<input type="text" name="input" id="input" class="form-control" placeholder="Don't use capital letters, please">
 			<button id="submit" class="btn btn-primary">Search</button>
 		</div>
 	</form>
@@ -74,7 +80,8 @@ foreach ($ab as $values) {
                 <div id="buttontopPicture2"></div>
             </div>
             <div id="picture">
-                <img id="sprite"/>
+                <img id="sprite" src="<?php echo $pokesprite;?>"/>
+
             </div>
             <div id="buttonbottomPicture"></div>
             <div id="speakers">
@@ -112,11 +119,17 @@ foreach ($ab as $values) {
             <article>
                 <div class="col">
                     <div id="submit-output">
-	                    <p><?php echo $input;?></p>
-                        <p id="pokéId"></p>
+	                    <p><?php echo $pokeName;?></p>
+                        <p id="pokéId"><?php echo $pokeID;?></p>
                     </div>
 
                     <div id="moves">
+	                    <ul>
+		                    <li></li>
+		                    <li></li>
+		                    <li></li>
+		                    <li></li>
+	                    </ul>
                     </div>
                 </div>
                 <div class="col">
